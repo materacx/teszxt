@@ -1,106 +1,193 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>mObywatel - ID</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Document</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            margin: 0;
-            padding: 20px;
-        }
+<style>
+body{
+    margin:0;
+    font-family: system-ui, Arial;
+    background:#0b1220;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    color:#fff;
+}
 
-        .card {
-            max-width: 420px;
-            margin: auto;
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+/* 🔵 subtelna animacja "flagi" */
+.header-wave{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:160px;
+    background: linear-gradient(120deg, #ffffff, #dc2626, #1d4ed8, #ffffff);
+    background-size:300% 300%;
+    animation: wave 7s ease infinite;
+    opacity:0.9;
+    z-index:0;
+    filter: blur(0px);
+}
 
-        .photo {
-            width: 120px;
-            height: 120px;
-            border-radius: 10px;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto 15px auto;
-            background: #ddd;
-        }
+@keyframes wave{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.card{
+    position:relative;
+    z-index:2;
+    width:380px;
+    border-radius:22px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(16px);
+    border:1px solid rgba(255,255,255,0.15);
+    padding:20px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.6);
+}
 
-        .row {
-            margin: 10px 0;
-            font-size: 15px;
-        }
+.top{
+    font-size:12px;
+    letter-spacing:2px;
+    opacity:0.7;
+    text-align:center;
+}
 
-        .label {
-            font-weight: bold;
-            color: #444;
-        }
-    </style>
+.photo{
+    width:110px;
+    height:110px;
+    border-radius:14px;
+    object-fit:cover;
+    display:block;
+    margin:15px auto;
+    border:2px solid rgba(255,255,255,0.2);
+    background:#222;
+}
+
+.name{
+    text-align:center;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    font-size:13px;
+}
+
+.item{
+    background:rgba(255,255,255,0.06);
+    padding:10px;
+    border-radius:12px;
+}
+
+.label{
+    font-size:10px;
+    opacity:0.6;
+}
+
+.value{
+    margin-top:4px;
+    font-weight:500;
+}
+
+.footer{
+    margin-top:15px;
+    font-size:11px;
+    opacity:0.6;
+    text-align:center;
+}
+</style>
 </head>
+
 <body>
 
+<div class="header-wave"></div>
+
 <div class="card">
-    <img id="photo" class="photo" src="" alt="zdjęcie">
 
-    <h2>Dokument tożsamości</h2>
+    <div class="top">DOKUMENT ELEKTRONICZNY</div>
 
-    <div class="row"><span class="label">Imię:</span> <span id="name"></span></div>
-    <div class="row"><span class="label">Nazwisko:</span> <span id="surname"></span></div>
-    <div class="row"><span class="label">Płeć:</span> <span id="sex"></span></div>
-    <div class="row"><span class="label">Data urodzenia:</span> <span id="birthday"></span></div>
-    <div class="row"><span class="label">Obywatelstwo:</span> <span id="nationality"></span></div>
-    <div class="row"><span class="label">Miejsce urodzenia:</span> <span id="birthPlace"></span></div>
-    <div class="row"><span class="label">Kraj urodzenia:</span> <span id="countryOfBirth"></span></div>
+    <img id="photo" class="photo">
 
-    <div class="row"><span class="label">Adres:</span> <span id="adress1"></span></div>
-    <div class="row"><span class="label">Kod pocztowy:</span> <span id="adress2"></span></div>
-    <div class="row"><span class="label">Miasto:</span> <span id="city"></span></div>
+    <div class="name" id="name">-</div>
 
-    <div class="row"><span class="label">Seria i numer:</span> <span id="seria_numer"></span></div>
-    <div class="row"><span class="label">Wydany:</span> <span id="wydany"></span></div>
-    <div class="row"><span class="label">Ważność:</span> <span id="waznosc"></span></div>
+    <div class="grid">
+        <div class="item">
+            <div class="label">NAZWISKO</div>
+            <div class="value" id="surname"></div>
+        </div>
+
+        <div class="item">
+            <div class="label">PŁEĆ</div>
+            <div class="value" id="sex"></div>
+        </div>
+
+        <div class="item">
+            <div class="label">DATA URODZENIA</div>
+            <div class="value" id="birthday"></div>
+        </div>
+
+        <div class="item">
+            <div class="label">OBYWATELSTWO</div>
+            <div class="value" id="nationality"></div>
+        </div>
+
+        <div class="item">
+            <div class="label">MIASTO</div>
+            <div class="value" id="city"></div>
+        </div>
+
+        <div class="item">
+            <div class="label">ADRES</div>
+            <div class="value" id="adress1"></div>
+        </div>
+
+        <div class="item">
+            <div class="label">DOKUMENT</div>
+            <div class="value" id="seria_numer"></div>
+        </div>
+
+        <div class="item">
+            <div class="label">WAŻNOŚĆ</div>
+            <div class="value" id="waznosc"></div>
+        </div>
+    </div>
+
+    <div class="footer">Dokument cyfrowy • wersja testowa UI</div>
 </div>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(location.search);
 
-    function set(id) {
-        const el = document.getElementById(id);
-        if (el) el.textContent = params.get(id) || "-";
-    }
+function set(id){
+    const el = document.getElementById(id);
+    if(el) el.textContent = params.get(id) || "-";
+}
 
-    set("name");
-    set("surname");
-    set("sex");
-    set("birthday");
-    set("nationality");
-    set("birthPlace");
-    set("countryOfBirth");
-    set("adress1");
-    set("adress2");
-    set("city");
-    set("seria_numer");
-    set("wydany");
-    set("waznosc");
+set("name");
+set("surname");
+set("sex");
+set("birthday");
+set("nationality");
+set("city");
+set("adress1");
+set("seria_numer");
+set("waznosc");
 
-    // zdjęcie
-    const img = params.get("image");
-    if (img) {
-        document.getElementById("photo").src = img;
-    } else {
-        document.getElementById("photo").style.display = "none";
-    }
+const img = params.get("image");
+if(img){
+    document.getElementById("photo").src = img;
+}else{
+    document.getElementById("photo").style.display = "none";
+}
 </script>
 
 </body>
