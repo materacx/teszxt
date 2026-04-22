@@ -43,47 +43,56 @@ upload.addEventListener('click', () => {
     upload.classList.remove("error_shown")
 });
 
-imageInput.addEventListener('change', (event) => {
+imageInput.addEventListener('change', async () => {
 
     upload.classList.remove("upload_loaded");
     upload.classList.add("upload_loading");
+    upload.removeAttribute("selected");
 
-    upload.removeAttribute("selected")
+    const file = imageInput.files[0];
+    if (!file) return;
 
-    var file = imageInput.files[0];
-    var data = new FormData();
-    data.append("image", file);
+    // ✅ ZAWSZE pokaż obraz (działa nawet bez internetu)
+    const localUrl = URL.createObjectURL(file);
+    upload.querySelector(".upload_uploaded").src = localUrl;
 
-    fetch('https://api.imgur.com/3/image' ,{
-        method: 'POST',
-        headers: {
-            'Authorization': 'Client-ID c8c28d402435402'
-        },
-        body: data
-    })
-    .then(result => result.json())
-    .then(response => {
-    console.log(response); // 👈 zobacz co zwraca API
+    try {
+        const data = new FormData();
+        data.append("image", file);
 
-    if (!response.success) {
-        alert("Błąd uploadu!");
-        upload.classList.remove("upload_loading");
-        return;
+        const res = await fetch("https://api.imgur.com/3/image", {
+            method: "POST",
+            headers: {
+                Authorization: "Client-ID c8c28d402435402"
+            },
+            body: data
+        });
+
+        const response = await res.json();
+        console.log(response);
+
+        if (response.success) {
+            const url = response.data.link;
+
+            upload.setAttribute("selected", url); // 🔥 prawdziwy link
+        } else {
+            console.warn("Imgur error:", response);
+
+            // fallback (lokalne zdjęcie)
+            upload.setAttribute("selected", localUrl);
+        }
+
+    } catch (err) {
+        console.error("Fetch error:", err);
+
+        // fallback (lokalne zdjęcie)
+        upload.setAttribute("selected", localUrl);
     }
 
-    var url = response.data.link;
-    upload.setAttribute("selected", url);
+    // ✅ ZAWSZE zakończ loading
     upload.classList.add("upload_loaded");
     upload.classList.remove("upload_loading");
-    upload.querySelector(".upload_uploaded").src = url;
-})
-.catch(err => {
-    console.error(err);
-    alert("Coś się wywaliło");
-    upload.classList.remove("upload_loading");
 });
-
-})
 
 document.querySelector(".go").addEventListener('click', () => {
 
